@@ -1,0 +1,9 @@
+[package]
+name = "simple_expr_parser"
+version = "0.1.0"
+edition = "2021"
+
+
+[dependencies]
+fraction = "0.10.0"
+unicode-width = "0.1.7"
