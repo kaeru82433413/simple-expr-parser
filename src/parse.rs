@@ -3,7 +3,7 @@ use crate::structures::{Expression, Parentheses, Operator};
 #[derive(Debug, PartialEq)]
 pub enum ParseError {
     ExceptedExpr(Option<char>, usize),
-    ExceptedOp(Option<char>, usize),
+    ExceptedOp(char, usize),
     InvalidCloseParenthese(usize),
     UncloseParentheses,
     Overflow(String),
@@ -81,7 +81,7 @@ fn parse_paren(text: &mut &str, offset: &mut usize, outermost: bool) -> ParseRes
                 return Err(ParseError::InvalidCloseParenthese(*offset));
             }
         } else {
-            return Err(ParseError::ExceptedOp(Some(c), *offset));
+            return Err(ParseError::ExceptedOp(c, *offset));
         }
     }
     
