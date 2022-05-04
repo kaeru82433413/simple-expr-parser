@@ -14,11 +14,11 @@ pub type EvaluationResult = Result<Fraction, EvaluationError>;
 impl Operator {
     fn apply(self, left: Fraction, right: Fraction) -> EvaluationResult {
         match self {
-            Self::Add => left.checked_add(&right).ok_or(EvaluationError::OverFlow),
-            Self::Sub => left.checked_sub(&right).ok_or(EvaluationError::OverFlow),
-            Self::Mul => left.checked_mul(&right).ok_or(EvaluationError::OverFlow),
+            Self::Add => left.checked_add(&right).ok_or(EvaluationError::Overflow),
+            Self::Sub => left.checked_sub(&right).ok_or(EvaluationError::Overflow),
+            Self::Mul => left.checked_mul(&right).ok_or(EvaluationError::Overflow),
             Self::Div => {
-                let raw = left.checked_div(&right).ok_or(EvaluationError::OverFlow)?;
+                let raw = left.checked_div(&right).ok_or(EvaluationError::Overflow)?;
                 match raw {
                     Fraction::Rational(_, _) => Ok(raw),
                     _ => Err(EvaluationError::ZeroDivision),
@@ -48,7 +48,7 @@ impl Operator {
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum EvaluationError {
     ZeroDivision,
-    OverFlow,
+    Overflow,
 }
 
 
@@ -178,7 +178,7 @@ fn test() {
     let i = Expression::from(Parentheses::new(
         vec![Expression::from(10u64.pow(10)), Expression::from(10u64.pow(10))], vec![Operator::Mul]
     )); // 10000000000*10000000000
-    assert_eq!(i.eval(), Err(EvaluationError::OverFlow));
+    assert_eq!(i.eval(), Err(EvaluationError::Overflow));
 
     let j = Expression::from(Parentheses::new(
         vec![one.clone(), Expression::from(0)], vec![Operator::Div]

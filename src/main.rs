@@ -16,7 +16,7 @@ fn main() {
                     Ok(result) => println!("{}", result),
                     Err(err) => {
                         match err {
-                            EvaluationError::OverFlow => println!("途中計算に算術オーバーフローが発生しました。"),
+                            EvaluationError::Overflow => println!("途中計算に算術オーバーフローが発生しました。"),
                             EvaluationError::ZeroDivision => println!("途中計算にゼロ除算が発生しました。"),
                         }
                     }
